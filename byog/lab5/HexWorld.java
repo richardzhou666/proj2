@@ -95,15 +95,15 @@ public class HexWorld {
         };
     }
 
-    public static Position topRightNeighbor(Position p, int s) {
+    private static Position topRightNeighbor(Position p, int s) {
         return new Position(p.x + 2 * s - 1, p.y + s);
     }
 
-    public static Position topLeftNeighbor(Position p, int s) {
+    private static Position topLeftNeighbor(Position p, int s) {
         return new Position(p.x - 2 * s + 1, p.y + s);
     }
 
-    public static Position[] getLeft(Position p, int s, int count) {
+    private static Position[] getLeft(Position p, int s, int count) {
         Position[] result = new Position[count];
         result[0] = topLeftNeighbor(p, s);
         for (int i = 1; i < s; i++) {
@@ -112,7 +112,7 @@ public class HexWorld {
         return result;
     }
 
-    public static void drawLeft(TETile[][] world, Position p, int s, int count) {
+    private static void drawLeft(TETile[][] world, Position p, int s, int count) {
         Position[] index = getLeft(p, s, count);
         for (int i = 0; i < s - 1; i++) {
             drawVertical(world, index[i], s, count - 1);
@@ -120,7 +120,7 @@ public class HexWorld {
         }
     }
 
-    public static Position[] getRight(Position p, int s, int count) {
+    private static Position[] getRight(Position p, int s, int count) {
         Position[] result = new Position[count];
         result[0] = topRightNeighbor(p, s);
         for (int i = 1; i < s; i++) {
@@ -129,7 +129,7 @@ public class HexWorld {
         return result;
     }
 
-    public static void drawRight(TETile[][] world, Position p, int s, int count) {
+    private static void drawRight(TETile[][] world, Position p, int s, int count) {
         Position[] index = getRight(p, s, count);
         for (int i = 0; i < s - 1; i++) {
             drawVertical(world, index[i], s, count - 1);
@@ -137,7 +137,7 @@ public class HexWorld {
         }
     }
 
-    public static void drawVertical(TETile[][] world, Position p, int s, int count) {
+    private static void drawVertical(TETile[][] world, Position p, int s, int count) {
         int init = 0;
         for (int i = 0; i < count; i++) {
             addHexagon(world, new Position(p.x, p.y + init), s, Tileset.FLOWER);
