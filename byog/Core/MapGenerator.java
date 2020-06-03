@@ -33,8 +33,8 @@ public class MapGenerator {
 
     public static void main(String[] args) {
         MapGenerator map = new MapGenerator();
-//        Position p = new Position(20,30);
-//        Room r1 = new Room(p, 5, 10);
+        Position p = new Position(20,30);
+        Room r1 = new Room(p, 5, 10);
 //        Room r2 = new Room(new Position(45, 30), 3, 6);
 //        Room l = new Room(new Position(26,32), 18, 2);
 //        Room l2 = new Room(new Position(23, 41), 1, 6);
@@ -49,7 +49,7 @@ public class MapGenerator {
 //        l2.drawRoom(map.world);
 ////        r3.drawRoom(map.world);
 //        r4.drawRoom(map.world);
-        Room.drawRandomRooms(map.world, rand, WIDTH, HEIGHT, 2500);
+        Room.drawRandomRooms(map.world, rand, WIDTH, HEIGHT, 50000);
 //        r1.drawTest(map.world);
         map.ter.renderFrame(map.world);
     }

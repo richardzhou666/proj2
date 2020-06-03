@@ -4,6 +4,7 @@ import edu.princeton.cs.introcs.StdDraw;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.KeyEvent;
 import java.util.Random;
 
 public class MemoryGame {
@@ -14,7 +15,7 @@ public class MemoryGame {
     private Random rand;
     private boolean gameOver;
     private boolean playerTurn;
-    private static final char[] CHARACTERS = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+    private static final char[] CHARACTERS = "askl".toCharArray();
     private static final String[] ENCOURAGEMENT = {"You can do this!", "I believe in you!",
                                                    "You got this!", "You're a star!", "Go Bears!",
                                                    "Too easy for you!", "Wow, so impressive!"};
@@ -24,12 +25,13 @@ public class MemoryGame {
             System.out.println("Please enter a seed");
             return;
         }
-        int seed = Integer.parseInt(args[0]);
-        MemoryGame game = new MemoryGame(50, 50, seed);
-        game.startGame();
+//        int seed = Integer.parseInt(args[0]);
+        MemoryGame game = new MemoryGame(50, 50);
+        game.UI();
+//        game.startGame();
     }
 
-    public MemoryGame(int width, int height, long seed) {
+    public MemoryGame(int width, int height) {
         /* Sets up StdDraw so that it has a width by height grid of 16 by 16 squares as its canvas
          * Also sets up the scale so the top left is (0,0) and the bottom right is (width, height)
          */
@@ -43,7 +45,7 @@ public class MemoryGame {
         StdDraw.setYscale(0, this.height);
         StdDraw.clear(Color.BLACK);
         StdDraw.enableDoubleBuffering();
-        rand = new Random(seed);
+        rand = new Random();
         //TODO: Initialize random number generator
     }
 
@@ -72,6 +74,8 @@ public class MemoryGame {
             StdDraw.show();
         } else {
             StdDraw.clear(Color.BLACK);
+            Font title = new Font("Monaco", Font.BOLD, 80);
+            StdDraw.setFont(title);
             StdDraw.text(width / 2, height / 2, s);
             StdDraw.show();
         }
@@ -83,11 +87,11 @@ public class MemoryGame {
             StdDraw.setPenColor(StdDraw.WHITE);
             StdDraw.text(width / 2, height / 2, String.valueOf(letter));
             StdDraw.show();
-            StdDraw.pause(1000);
+            StdDraw.pause(300);
             StdDraw.setPenColor(Color.black);
             StdDraw.filledCircle(width / 2, height / 2, 2);
             StdDraw.show();
-            StdDraw.pause(500);
+            StdDraw.pause(300);
         }
     }
 
@@ -106,7 +110,7 @@ public class MemoryGame {
         //TODO: Set any relevant variables before the game starts
         int i = 1;
         //TODO: Establish Game loop
-        while (true) {
+        while (!gg) {
             drawFrame("Round: " + i);
             String target = generateRandomString(i);
             flashSequence(target);
@@ -114,11 +118,31 @@ public class MemoryGame {
             if (target.equals(input)) {
                 drawFrame("You made it");
                 i ++;
+                gg = false;
             } else {
                 gg = true;
-                drawFrame("GG");
-                return;
             }
         }
+        gg = true;
+        drawFrame("GG LOSER");
+        StdDraw.setPenColor(Color.white);
+        Font font = new Font("Monaco", Font.BOLD, 50);
+        StdDraw.setFont(font);
+        StdDraw.text(width / 2, 35, "Made to Round " + i);
+        StdDraw.show();
+    }
+
+    public void UI() {
+        StdDraw.clear(StdDraw.BLACK);
+        Font title = new Font("Monaco", Font.BOLD, 50);
+        StdDraw.setFont(title);
+        StdDraw.setPenColor(Color.white);
+        StdDraw.text(width / 2, height / 2, "Typing Memory Test");
+        Font font = new Font("Monaco", Font.BOLD, 30);
+        StdDraw.setFont(font);
+//        StdDraw.text(width / 2, height / 2 - 10, " Start New Game (N)");
+        StdDraw.show();
+        StdDraw.pause(1000);
+        startGame();
     }
 }

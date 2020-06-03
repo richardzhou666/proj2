@@ -10,6 +10,8 @@ public class Room {
     Position p;
     int n; // Width
     int m; // Height
+    private static final int WIDTH = 70;
+    private static final int HEIGHT = 70;
 
     Room(Position p, int n, int m) {
         this.p = p;
@@ -110,15 +112,17 @@ public class Room {
     }
 
     /** Generate list of random rooms */
-    private static ArrayList<Room> randomRooms(Random rand, int WIDTH, int HEIGHT, int count) {
+    private static ArrayList<Room> randomRooms(Random rand, int count) {
         ArrayList<Room> roomList = new ArrayList<>();
         ArrayList<Position> allRooms = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            int x = RandomUtils.uniform(rand,0,  WIDTH-10);
-            int y = RandomUtils.uniform(rand, 0,  HEIGHT-10);
+            int x = RandomUtils.uniform(rand,0,  WIDTH - 2);
+            int y = RandomUtils.uniform(rand, 0,  HEIGHT - 2);
             Position p = new Position(x,y);
-            int n = RandomUtils.uniform(rand,5, 10);
-            int m = RandomUtils.uniform(rand, 3,10);
+            int n = RandomUtils.uniform(rand,1, 15);
+            int m = RandomUtils.uniform(rand, 1,20);
+            if (x + n >= WIDTH - 2) n = WIDTH - x - 2;
+            if (y + m >= HEIGHT - 2) m = HEIGHT - y - 2;
             Room r = new Room(p, n, m);
             if (i == 0) {
                 roomList.add(r);
@@ -146,9 +150,17 @@ public class Room {
     }
 
     public static void drawRandomRooms(TETile[][] world, Random rand, int WIDTH, int HEIGHT, int count) {
-        ArrayList<Room> roomList = randomRooms(rand, WIDTH, HEIGHT, count);
+        ArrayList<Room> roomList = randomRooms(rand, count);
         for (Room r:roomList) {
             r.drawRoom(world);
         }
+    }
+
+    /** Debug */
+    public static void main(String[] args) {
+        ArrayList<Room> roomList = randomRooms(new Random(), 25);
+        for (Room r:roomList) {
+            if (r.p.x >= 70 && r.p.y >=70 ) System.out.println(true);
+        }  System.out.println(false);
     }
 }
