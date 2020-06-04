@@ -112,15 +112,15 @@ public class Room {
     }
 
     /** Generate list of random rooms */
-    private static ArrayList<Room> randomRooms(Random rand, int count) {
+    public static ArrayList<Room> randomRooms(Random rand, int count) {
         ArrayList<Room> roomList = new ArrayList<>();
         ArrayList<Position> allRooms = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            int x = RandomUtils.uniform(rand,0,  WIDTH - 2);
-            int y = RandomUtils.uniform(rand, 0,  HEIGHT - 2);
+            int x = RandomUtils.uniform(rand,0,  WIDTH - 8);
+            int y = RandomUtils.uniform(rand, 0,  HEIGHT - 8);
             Position p = new Position(x,y);
-            int n = RandomUtils.uniform(rand,1, 15);
-            int m = RandomUtils.uniform(rand, 1,20);
+            int n = RandomUtils.uniform(rand,3, 9);
+            int m = RandomUtils.uniform(rand, 3,9);
             if (x + n >= WIDTH - 2) n = WIDTH - x - 2;
             if (y + m >= HEIGHT - 2) m = HEIGHT - y - 2;
             Room r = new Room(p, n, m);
@@ -154,6 +154,26 @@ public class Room {
         for (Room r:roomList) {
             r.drawRoom(world);
         }
+    }
+
+    public static Position randomPosition(Room r) {
+        int x = RandomUtils.uniform(new Random(), r.availablePath().size());
+        return r.availablePath().get(x);
+    }
+
+    public void connect(Room r, TETile[][] world) {
+         Position p1 = randomPosition(this);
+         Position p2 = randomPosition(r);
+        int choice = new Random().nextInt(2);
+        if (choice == 0) {
+            Floor.drawFloorX(p1, p2, world);
+            Floor.drawFloorY(p1, p2, world);
+        } else {
+            Floor.drawFloorY(p1, p2, world);
+            Floor.drawFloorX(p1, p2, world);
+        }
+//            Floor.drawFloorX(p1, p2, world);
+//            Floor.drawFloorY(p1, p2, world);
     }
 
     /** Debug */
