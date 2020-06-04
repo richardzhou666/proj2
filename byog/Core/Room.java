@@ -2,7 +2,6 @@ package byog.Core;
 
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
-
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -12,6 +11,7 @@ public class Room {
     int m; // Height
     private static final int WIDTH = 70;
     private static final int HEIGHT = 70;
+    public double distance;
 
     Room(Position p, int n, int m) {
         this.p = p;
@@ -115,20 +115,23 @@ public class Room {
     public static ArrayList<Room> randomRooms(Random rand, int count) {
         ArrayList<Room> roomList = new ArrayList<>();
         ArrayList<Position> allRooms = new ArrayList<>();
-        for (int i = 0; i < count; i++) {
-            int x = RandomUtils.uniform(rand,0,  WIDTH - 8);
-            int y = RandomUtils.uniform(rand, 0,  HEIGHT - 8);
+        int roomNum = 0;
+        while (roomNum <= count) {
+            int x = RandomUtils.uniform(rand,3,  WIDTH - 8);
+            int y = RandomUtils.uniform(rand, 3,  HEIGHT - 8);
             Position p = new Position(x,y);
-            int n = RandomUtils.uniform(rand,3, 9);
-            int m = RandomUtils.uniform(rand, 3,9);
-            if (x + n >= WIDTH - 2) n = WIDTH - x - 2;
-            if (y + m >= HEIGHT - 2) m = HEIGHT - y - 2;
+            int n = RandomUtils.uniform(rand,3, 10);
+            int m = RandomUtils.uniform(rand, 3,20);
+            if (x + n >= WIDTH - 3) n = WIDTH - x - 3;
+            if (y + m >= HEIGHT - 3) m = HEIGHT - y - 3;
             Room r = new Room(p, n, m);
-            if (i == 0) {
+            if (roomNum == 0) {
                 roomList.add(r);
+                roomNum++;
                 allRooms.addAll(r.everything());
             } else if (!overlap(allRooms, r)) {
                 roomList.add(r);
+                roomNum++;
                 allRooms.addAll(r.everything());
             }
         }
@@ -151,6 +154,7 @@ public class Room {
 
     public static void drawRandomRooms(TETile[][] world, Random rand, int WIDTH, int HEIGHT, int count) {
         ArrayList<Room> roomList = randomRooms(rand, count);
+        sortRooms(roomList);
         for (Room r:roomList) {
             r.drawRoom(world);
         }
@@ -172,8 +176,24 @@ public class Room {
             Floor.drawFloorY(p1, p2, world);
             Floor.drawFloorX(p1, p2, world);
         }
-//            Floor.drawFloorX(p1, p2, world);
-//            Floor.drawFloorY(p1, p2, world);
+    }
+
+    public static void connectHouse(Room h1, Room h2, TETile[][] world) {
+        h1.connect(h2, world);
+    }
+
+    /** Sort rooms by Euclidean Distance between the first room generated */
+    public static void sortRooms(ArrayList<Room> roomList) {
+        Room firstRoom = roomList.get(0);
+        for (Room r : roomList) {
+            r.distance = r.calcDistance(firstRoom);
+        }
+        roomList.sort((r1, r2) -> (int) (r1.distance - r2.distance));
+    }
+
+    /** Calculate the Euclidean Distance between left corners of two rooms*/
+    private double calcDistance(Room r) {
+        return Math.sqrt(Math.pow((this.p.x - r.p.x), 2) + Math.pow((this.p.y - r.p.y), 2));
     }
 
     /** Debug */

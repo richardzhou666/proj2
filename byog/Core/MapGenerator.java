@@ -3,13 +3,11 @@ package byog.Core;
 import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
-import byog.Core.Room;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-import static byog.Core.Room.randomPosition;
-import static byog.Core.Room.randomRooms;
+import static byog.Core.Room.*;
 
 public class MapGenerator {
     public long seed;
@@ -32,15 +30,25 @@ public class MapGenerator {
         }
     }
 
-    public static void connectHouse(Room h1, Room h2, TETile[][] world) {
-        h1.connect(h2, world);
+    public void startMap(int count) {
+        ArrayList<Room> roomList = randomRooms(rand, count);
+        sortRooms(roomList);
+        for (Room r:roomList) {
+            r.drawRoom(world);
+            System.out.println(r.distance);
+        }
+        for (int i = 0; i < count; i ++) {
+            connectHouse(roomList.get(i), roomList.get(i + 1), world);
+            System.out.println("The " + i  + " room X is " + roomList.get(i).p.x);
+            System.out.println("The " + i  + "room Y is " + roomList.get(i).p.y);
+        }
     }
-
 
     public static void main(String[] args) {
         MapGenerator map = new MapGenerator();
         Position p = new Position(20,30);
         Position p2 = new Position (25,35);
+        map.startMap(15);
 //        Floor.drawFloorX(p, p2, map.world);
 //        Floor.drawFloorY(p, p2, map.world);
 //        Room r1 = new Room(p, 5, 10);
@@ -67,16 +75,8 @@ public class MapGenerator {
 ////        r2.drawRoom(map.world);
 //        l.drawRoom(map.world);
 //        l2.drawRoom(map.world);
-////        r3.drawRoom(map.world);
-//        r4.drawRoom(map.world);
-        ArrayList<Room> roomList = randomRooms(rand, 20);
-//        Room.drawRandomRooms(map.world, rand, WIDTH, HEIGHT, 50);
-        for (Room r:roomList) {
-            r.drawRoom(map.world);
-        }
-        for (int i = 0; i < 13; i ++) {
-            connectHouse(roomList.get(i), roomList.get(i + 1), map.world);
-        }
+////        r3.drawRoom(map.world)
+
 //        for (int i = 0; i < 2; i++) {
 //            randomRooms(rand, 10).get(i).drawRoom(map.world);
 //        }
