@@ -30,6 +30,16 @@ public class MapGenerator {
         }
     }
 
+    public static ArrayList<Position> floor(TETile[][] world) {
+        ArrayList<Position> floor = new ArrayList<>();
+        for (int i = 0; i < WIDTH; i++) {
+            for (int j = 0; j < HEIGHT; j++) {
+                if (world[i][j] == Tileset.FLOOR) floor.add(new Position(i, j));
+            }
+        }
+        return floor;
+    }
+
     public void startMap(int count) {
         ArrayList<Room> roomList = randomRooms(rand, count);
         sortRooms(roomList);
@@ -39,51 +49,22 @@ public class MapGenerator {
         }
         for (int i = 0; i < count; i ++) {
             connectHouse(roomList.get(i), roomList.get(i + 1), world);
-            System.out.println("The " + i  + " room X is " + roomList.get(i).p.x);
-            System.out.println("The " + i  + "room Y is " + roomList.get(i).p.y);
         }
+        Room.removeXWall(world);
+        Room.removeYWall(world);
+        Room.removeXWall(world);
+        Room.removeYWall(world);
+    }
+
+    public void getPlayer(TETile[][] world) {
+        Player p = new Player(world);
+        p.drawPlayer(world);
     }
 
     public static void main(String[] args) {
         MapGenerator map = new MapGenerator();
-        Position p = new Position(20,30);
-        Position p2 = new Position (25,35);
-        map.startMap(15);
-//        Floor.drawFloorX(p, p2, map.world);
-//        Floor.drawFloorY(p, p2, map.world);
-//        Room r1 = new Room(p, 5, 10);
-//        Room r2 = new Room(new Position(45, 30), 3, 6);
-//        r1.drawRoom(map.world);
-//        r2.drawRoom(map.world);
-//        connectHouse(r1, r2, map.world);
-//        Position x = randomPosition(r1);
-//        Position y = randomPosition(r2);
-//        map.world[x.x][x.y] = Tileset.PLAYER;
-//        map.world[y.x][y.y] = Tileset.PLAYER;
-//        Floor.drawFloorX(x, y, map.world);
-//        Floor.drawFloorY(x, y, map.world);
-//        r1.connect(r2, map.world);
-//        connectHouse(r1, r2, map.world);
-//        Room l = new Room(new Position(26,32), 18, 2);
-//        Room l2 = new Room(new Position(23, 41), 1, 6);
-//        int index = RandomUtils.uniform(rand, l.top().size());
-//
-//        Room l3 = new Room(new Position(21, 29), 3, 6);
-//        Room r3 = new Room(l.top().get(index), 1, 6);
-//        Room r4 = new Room(l.top().get(index), 2, 8);
-//        r1.drawRoom(map.world);
-////        r2.drawRoom(map.world);
-//        l.drawRoom(map.world);
-//        l2.drawRoom(map.world);
-////        r3.drawRoom(map.world)
-
-//        for (int i = 0; i < 2; i++) {
-//            randomRooms(rand, 10).get(i).drawRoom(map.world);
-//        }
-//        Hallway h = new Hallway(new Position(22, 21), 2, 10);
-//        Hallway h2 = new Hallway(new Position(26, 35), 10, 2);
-//        h2.drawHorizontal(map.world);
-//        h.drawVertical(map.world);
+        map.startMap(18);
+        map.getPlayer(map.world);
         map.ter.renderFrame(map.world);
     }
 }

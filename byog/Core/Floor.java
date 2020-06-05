@@ -5,11 +5,12 @@ import byog.TileEngine.Tileset;
 
 /**
  * draw Floor between position1(house1) and position2(house2)
+ * @Source Jacky
  */
 public class Floor {
     static int k;
     static TETile floor = Tileset.FLOOR;
-    static TETile wall = Tileset.WALL;
+    static TETile wall = Tileset.MYWALL;
 
     //draw X direction
     static void drawFloorX(Position p1, Position p2, TETile[][] world) {

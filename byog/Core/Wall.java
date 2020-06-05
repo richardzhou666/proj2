@@ -6,7 +6,7 @@ import byog.TileEngine.Tileset;
 public class Wall {
     static int k;
     static TETile floor = Tileset.FLOOR;
-    static TETile wall = Tileset.WALL;
+    static TETile wall = Tileset.MYWALL;
 
     // surround a position with wall. 3 * 3;
     static void surroundedWall(Position p, TETile[][] world) {

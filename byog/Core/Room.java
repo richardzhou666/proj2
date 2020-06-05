@@ -27,10 +27,11 @@ public class Room {
         }
         // Draw Wall
         for (Position out:wall()) {
-            world[out.x][out.y] = Tileset.WALL;
+            world[out.x][out.y] = Tileset.MYWALL;
         }
     }
 
+    @Deprecated
     public void drawTest(TETile[][] world) {
         for (Position p:everything()) {
             world[p.x][p.y] = Tileset.LOCKED_DOOR;
@@ -152,7 +153,8 @@ public class Room {
         return false;
     }
 
-    public static void drawRandomRooms(TETile[][] world, Random rand, int WIDTH, int HEIGHT, int count) {
+    @Deprecated
+    public static void drawRandomRooms(TETile[][] world, Random rand, int count) {
         ArrayList<Room> roomList = randomRooms(rand, count);
         sortRooms(roomList);
         for (Room r:roomList) {
@@ -191,9 +193,45 @@ public class Room {
         roomList.sort((r1, r2) -> (int) (r1.distance - r2.distance));
     }
 
-    /** Calculate the Euclidean Distance between left corners of two rooms*/
+    /** Calculate the Euclidean Distance between centers of two rooms*/
     private double calcDistance(Room r) {
-        return Math.sqrt(Math.pow((this.p.x - r.p.x), 2) + Math.pow((this.p.y - r.p.y), 2));
+        Position midA = new Position(this.p.x + this.n / 2, this.p.y + this.m / 2);
+        Position midB = new Position(r.p.x + r.n / 2, r.p.y + r.m / 2);
+        return Math.sqrt(Math.pow((midA.x - midB.x), 2) + Math.pow((midA.y - midB.y), 2));
+    }
+
+    /** Remove horizontal alone single wall */
+    public static void removeXWall(TETile[][] world) {
+        for (int i = 0; i < WIDTH - 1; i++) {
+            for (int j = 0; j < HEIGHT; j++) {
+                if (world[i][j] == Tileset.MYWALL
+                    && world[i - 1][j] == Tileset.FLOOR
+                    && world[i + 1][j] == Tileset.FLOOR) world[i][j] = Tileset.FLOOR;
+            }
+        }
+    }
+
+    /** Remove vertical alone single wall */
+    public static void removeYWall(TETile[][] world) {
+        for (int i = 0; i < WIDTH; i++) {
+            for (int j = 0; j < HEIGHT - 1; j++) {
+                if (world[i][j] == Tileset.MYWALL
+                        && world[i][j - 1] == Tileset.FLOOR
+                        && world[i][j + 1] == Tileset.FLOOR) world[i][j] = Tileset.FLOOR;
+            }
+        }
+    }
+
+    @Deprecated
+    public static void removeDoubleWall(TETile[][] world) {
+        for (int i = 0; i < WIDTH - 2; i++) {
+            for (int j = 0; j < HEIGHT; j++) {
+                if (world[i][j] == Tileset.MYWALL
+                        && world[i - 1][j] == Tileset.FLOOR
+                        && world[i + 2][j] == Tileset.FLOOR) world[i][j] = Tileset.FLOOR;
+            }
+        }
+        removeXWall(world);
     }
 
     /** Debug */

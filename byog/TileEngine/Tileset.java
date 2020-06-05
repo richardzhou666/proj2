@@ -33,6 +33,9 @@ public class Tileset {
     public static final TETile SAND = new TETile('▒', Color.yellow, Color.black, "sand");
     public static final TETile MOUNTAIN = new TETile('▲', Color.gray, Color.black, "mountain");
     public static final TETile TREE = new TETile('♠', Color.green, Color.black, "tree");
+    public static final TETile MYWALL = new TETile('#', Color.GRAY, Color.BLACK, "wall", "C:\\Users\\RichardZhou\\Desktop\\cs61b\\proj2\\byog\\TileEngine\\Tiles\\wall.png");
+    public static final TETile PIKACHU = new TETile('@', Color.GRAY, Color.BLACK, "wall", "C:\\Users\\RichardZhou\\Desktop\\cs61b\\proj2\\byog\\TileEngine\\Tiles\\pkc.png");
+
 }
 
 
