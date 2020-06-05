@@ -10,8 +10,7 @@ public class Player {
     private static final int WIDTH = 70;
     private static final int HEIGHT = 70;
 
-    Player(TETile[][] world) {
-        Random rand = new Random();
+    Player(Random rand, TETile[][] world) {
         int x = RandomUtils.uniform(rand, MapGenerator.floor(world).size());
         this.p = MapGenerator.floor(world).get(x);
     }
@@ -19,5 +18,4 @@ public class Player {
     void drawPlayer(TETile[][] world) {
         world[p.x][p.y] = Tileset.PIKACHU;
     }
-
 }

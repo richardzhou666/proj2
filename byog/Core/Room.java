@@ -162,15 +162,15 @@ public class Room {
         }
     }
 
-    public static Position randomPosition(Room r) {
-        int x = RandomUtils.uniform(new Random(), r.availablePath().size());
+    public static Position randomPosition(Random rand, Room r) {
+        int x = RandomUtils.uniform(rand, r.availablePath().size());
         return r.availablePath().get(x);
     }
 
-    public void connect(Room r, TETile[][] world) {
-         Position p1 = randomPosition(this);
-         Position p2 = randomPosition(r);
-        int choice = new Random().nextInt(2);
+    public void connect(Random rand, Room r, TETile[][] world) {
+         Position p1 = randomPosition(rand, this);
+         Position p2 = randomPosition(rand, r);
+        int choice = rand.nextInt(2);
         if (choice == 0) {
             Floor.drawFloorX(p1, p2, world);
             Floor.drawFloorY(p1, p2, world);
@@ -180,8 +180,8 @@ public class Room {
         }
     }
 
-    public static void connectHouse(Room h1, Room h2, TETile[][] world) {
-        h1.connect(h2, world);
+    public static void connectHouse(Random rand, Room h1, Room h2, TETile[][] world) {
+        h1.connect(rand, h2, world);
     }
 
     /** Sort rooms by Euclidean Distance between the first room generated */

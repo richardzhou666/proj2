@@ -2,13 +2,17 @@ package byog.Core;
 
 import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
+import edu.princeton.cs.introcs.StdDraw;
+
+import java.awt.*;
 
 public class Game {
     TERenderer ter = new TERenderer();
     /* Feel free to change the width and height. */
-    public static final int WIDTH = 80;
-    public static final int HEIGHT = 30;
-
+    public static final int WIDTH = 70;
+    public static final int HEIGHT = 70;
+    private static final Font title = new Font("Monaco", Font.BOLD, 50);
+    private static final Font medium = new Font("Monaco", Font.BOLD, 35);
     /**
      * Method used for playing a fresh game. The game should start from the main menu.
      */
@@ -34,5 +38,37 @@ public class Game {
 
         TETile[][] finalWorldFrame = null;
         return finalWorldFrame;
+    }
+
+    public static void startUI() {
+        int midWidth = WIDTH / 2;
+        int midHeight = HEIGHT / 2;
+        int x = 0;
+        StdDraw.setCanvasSize(WIDTH * 16, HEIGHT * 16);
+        StdDraw.setXscale(0, WIDTH);
+        StdDraw.setYscale(0, HEIGHT);
+        StdDraw.enableDoubleBuffering();
+        while (true) {
+            StdDraw.setFont(title);
+            StdDraw.clear(Color.WHITE);
+            StdDraw.setPenColor(Color.BLACK);
+            StdDraw.text(midWidth, midHeight + 10, "Save Pikachu!!!");
+            StdDraw.setFont(medium);
+            StdDraw.text(midWidth, midHeight, "New Game (N)");
+            StdDraw.text(midWidth, midHeight - 5, "Load Game (L)");
+            StdDraw.text(midWidth, midHeight - 8, "Quit (Q)");
+            StdDraw.text(midWidth, midHeight - 11, "Select Character (C)");
+            StdDraw.picture(midWidth + x, midHeight + 25,
+                    "C:\\Users\\RichardZhou\\Desktop\\cs61b\\proj2\\byog\\Data\\Pikachu.png",
+                    20, 20);
+            StdDraw.show();
+            StdDraw.pause(150);
+            x++;
+            if (x > midWidth) x = -midWidth;
+        }
+    }
+
+    public static void main(String[] args) {
+        startUI();
     }
 }
