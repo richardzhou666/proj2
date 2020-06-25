@@ -13,6 +13,7 @@ public class Game {
     public static final int HEIGHT = 70;
     private static final Font title = new Font("Monaco", Font.BOLD, 50);
     private static final Font medium = new Font("Monaco", Font.BOLD, 35);
+    private boolean start;
     /**
      * Method used for playing a fresh game. The game should start from the main menu.
      */
@@ -40,6 +41,10 @@ public class Game {
         return finalWorldFrame;
     }
 
+    public boolean isStart(String input) {
+        return input.toCharArray()[0] == 'n';
+    }
+
     public static void startUI() {
         int midWidth = WIDTH / 2;
         int midHeight = HEIGHT / 2;
@@ -50,14 +55,14 @@ public class Game {
         StdDraw.enableDoubleBuffering();
         while (true) {
             StdDraw.setFont(title);
-            StdDraw.clear(Color.WHITE);
-            StdDraw.setPenColor(Color.BLACK);
-            StdDraw.text(midWidth, midHeight + 10, "Save Pikachu!!!");
+            StdDraw.clear(Color.BLACK);
+            StdDraw.setPenColor(Color.WHITE);
+            StdDraw.text(midWidth, midHeight + 10, "ZCC'S GAME: 还没想好叫什么");
             StdDraw.setFont(medium);
-            StdDraw.text(midWidth, midHeight, "New Game (N)");
-            StdDraw.text(midWidth, midHeight - 5, "Load Game (L)");
-            StdDraw.text(midWidth, midHeight - 8, "Quit (Q)");
-            StdDraw.text(midWidth, midHeight - 11, "Select Character (C)");
+            StdDraw.text(midWidth, midHeight, "新游戏 New Game (N)");
+            StdDraw.text(midWidth, midHeight - 5, "加载游戏 Load Game (L)");
+            StdDraw.text(midWidth, midHeight - 10, "退出 Quit (Q)");
+            StdDraw.text(midWidth, midHeight - 15, "选择人物 Select Character (C)");
             StdDraw.picture(midWidth + x, midHeight + 25,
                     "C:\\Users\\RichardZhou\\Desktop\\cs61b\\proj2\\byog\\Data\\Pikachu.png",
                     20, 20);

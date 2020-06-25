@@ -111,7 +111,7 @@ public class MapGenerator {
     }
 
     public static void main(String[] args) {
-        MapGenerator map = new MapGenerator(6969);
+        MapGenerator map = new MapGenerator(131313);
         map.startMap(30);
         map.ter.renderFrame(map.world);
     }
